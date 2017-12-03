@@ -7,7 +7,7 @@ public class TetrisPartGenerator : MonoBehaviour {
     public TetrisPart[] tetrisPartLib;
     public Transform tetrisTank;
 
-    Vector3 spawnLocationOffset = new Vector3(0.0f, 10.0f, 0.0f);
+    Vector3 spawnLocationOffset = new Vector3(0.0f, 25.0f, 0.0f);
 
 	// Use this for initialization
 	void Start () {

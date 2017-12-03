@@ -9,7 +9,7 @@ public class Falling : MonoBehaviour {
     
 
     const float slowFallingSpeed = 1.0f;
-    const float fastFallingSpeed = 5.0f;
+    const float fastFallingSpeed = 10.0f;
 
 	// Use this for initialization
 	void Start () {

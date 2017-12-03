@@ -18,7 +18,7 @@ public class Cannon : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        transform.Rotate(0.0f, 0.0f, 10.0f * Time.deltaTime);
+        transform.Rotate(0.0f, 0.0f, 20.0f * Time.deltaTime);
     }
 
     public void Activate(Rigidbody2D rigidbodyTank)
