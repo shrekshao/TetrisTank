@@ -22,6 +22,8 @@ public class TetrisBlock : MonoBehaviour {
 
     float halfBlockSideLength;
 
+    public bool breakable = true;
+
 
     // store neighbor linked and connected to the tank base
     
@@ -97,7 +99,10 @@ public class TetrisBlock : MonoBehaviour {
             {
                 Destroy(transform.parent.gameObject);
             }
-
+            else if (blockType == BlockType.Tank)
+            {
+                BreakBlock();
+            }
             
         }
         
@@ -181,6 +186,11 @@ public class TetrisBlock : MonoBehaviour {
 
     public void BreakBlock()
     {
+        if (!breakable)
+        {
+            return;
+        }
+
         for (int i = 0; i < parentBlocks.Length; i++)
         {
             if (parentBlocks[i] != null)

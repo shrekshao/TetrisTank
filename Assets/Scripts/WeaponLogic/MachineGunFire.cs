@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponFire : MonoBehaviour {
+public class MachineGunFire : MonoBehaviour {
 
     public GameObject bullet;
     public Transform firePosition;
@@ -11,10 +11,10 @@ public class WeaponFire : MonoBehaviour {
 
     private IEnumerator coroutine;
 
-    //private int playerAttackLayer;
-
-    public float waitSeconds = 1.0f;
     public float force = 1.0f;
+    public float waitSeconds = 2.0f;
+    public float subWaitSeconds = 0.2f;
+    public int numPerRound = 10;
 
     public void Activate(Rigidbody2D rigidbodyTank)
     {
@@ -34,6 +34,18 @@ public class WeaponFire : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(waitSeconds);
+
+            StartCoroutine(SubFire());
+            //g.layer = playerAttackLayer;
+        }
+
+    }
+
+    IEnumerator SubFire()
+    {
+        for (int i = 0; i < numPerRound; i++)
+        {
+            yield return new WaitForSeconds(subWaitSeconds);
 
             m_rigidBodyTank.AddForceAtPosition(-transform.right * force, transform.position, ForceMode2D.Impulse);
 

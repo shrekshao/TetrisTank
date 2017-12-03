@@ -107,7 +107,7 @@ public class TetrisTank : MonoBehaviour {
 
     public void UpdateCenterOfMass(TetrisBlock[] blocks)
     {
-        Vector3 centerOfMass = m_rigidBody.centerOfMass;
+        Vector3 centerOfMass = m_rigidBody.centerOfMass * totalWeight;
         for (int i = 0; i < blocks.Length; i++)
         {
             float w = blocks[i].weight;
