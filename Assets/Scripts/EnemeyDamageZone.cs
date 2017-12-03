@@ -9,6 +9,8 @@ public class EnemeyDamageZone : MonoBehaviour {
 
     public UnityEngine.UI.Text hpText;
 
+    public GameObject GameOverEnemyUI;
+
     // Use this for initialization
     void Start () {
         hpText.text = hp.ToString();
@@ -38,6 +40,6 @@ public class EnemeyDamageZone : MonoBehaviour {
 
     void GameOverByEnemy()
     {
-        // TODO;
+        GameOverEnemyUI.SetActive(true);
     }
 }

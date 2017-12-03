@@ -242,7 +242,14 @@ public class TetrisBlock : MonoBehaviour {
     }
 
 
-
+    public void ReceiveDamage(int damage)
+    {
+        hp -= damage;
+        if (hp <= 0)
+        {
+            BreakBlock();
+        }
+    }
 
 
 }

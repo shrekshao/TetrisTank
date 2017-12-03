@@ -31,8 +31,12 @@ public class Enemy : MonoBehaviour {
 
             m_rigidBody.velocity = new Vector3(
             10.0f * 2.0f * (Random.value - 0.5f), 
-            40.0f * Random.value,
+            //40.0f * Random.value,
+            30.0f,
             0.0f);
+
+            Destroy(GetComponent<EnemyMove1>());
+            Destroy(GetComponent<EnemyFire>());
         }
     }
 

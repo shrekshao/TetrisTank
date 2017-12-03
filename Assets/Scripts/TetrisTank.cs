@@ -8,6 +8,7 @@ public class TetrisTank : MonoBehaviour {
 
     float totalWeight = 0.0f;
 
+    public GameObject GameOverFallUI;
 
     public SpriteRenderer refBlockSpriteRenderer;
     float gridSideLength;
@@ -62,6 +63,18 @@ public class TetrisTank : MonoBehaviour {
         //centerOfMassMarker.position += transform.position;
         //centerOfMassMarker.position.Set(centerOfMassMarker.position.x + transform.position.x, centerOfMassMarker.position.y + transform.position.y, z);
 
+
+
+        if ( Mathf.Abs(Vector3.Dot(transform.up, Vector3.right)) >= 0.9 )
+        {
+            GameOverFallUI.SetActive(true);
+        }
+
+
+
+
+
+        // mouse debug break block
         if (Input.GetMouseButtonDown(0))
         {
             //Debug.Log(1);
