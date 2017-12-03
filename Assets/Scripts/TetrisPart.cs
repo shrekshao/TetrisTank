@@ -9,7 +9,7 @@ public class TetrisPart : MonoBehaviour {
     TetrisBlock[] childBlocks;
 
     float fallingSpeed;
-    float movingSpeed = 2.0f;
+    float movingSpeed = 4.0f;
 
     Rigidbody2D m_rigidBody;
 
