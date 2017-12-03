@@ -112,12 +112,17 @@ public class TetrisPart : MonoBehaviour {
             assembled = true;
             //m_fallingLogic.enabled = false;
 
-            // activate weapon coroutine
 
+            // fit to tank grid system
+            tank.SnapToGrid(transform);
+
+            
+            /////////////////
             var tankRigidBody = tank.gameObject.GetComponent<Rigidbody2D>();
 
             for (int i = 0; i < childBlocks.Length; i++)
             {
+                // activate weapon coroutine
                 childBlocks[i].TransformToTankBlock(tankRigidBody);
             }
 

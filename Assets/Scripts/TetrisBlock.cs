@@ -14,9 +14,14 @@ public class TetrisBlock : MonoBehaviour {
 
     int moveLayerMask;
 
+    float halfBlockSideLength;
+
 	// Use this for initialization
 	void Start () {
+
         parentPart = transform.parent.GetComponent<TetrisPart>();
+
+        halfBlockSideLength = GetComponent<SpriteRenderer>().bounds.size.x * 0.5f;
 
         if (transform.childCount > 0)
         {
@@ -37,25 +42,25 @@ public class TetrisBlock : MonoBehaviour {
 
     //}
 
-    void OnTriggerEnter2D(Collider2D c)
-    {
-        if (blockType == BlockType.Falling)
-        {
-            Debug.Log("Falls on Tank");
+    //void OnTriggerEnter2D(Collider2D c)
+    //{
+    //    if (blockType == BlockType.Falling)
+    //    {
+    //        Debug.Log("Falls on Tank");
 
-            //TetrisBlock hitTankBlock = c.gameObject.GetComponent<TetrisBlock>();
+    //        //TetrisBlock hitTankBlock = c.gameObject.GetComponent<TetrisBlock>();
 
-            if (parentPart != null)
-            {
-                parentPart.Assemble(
-                    c.gameObject.transform.parent.GetComponent<TetrisTank>()
-                );
-            }
+    //        if (parentPart != null)
+    //        {
+    //            parentPart.Assemble(
+    //                c.gameObject.transform.parent.GetComponent<TetrisTank>()
+    //            );
+    //        }
             
-            //transform.parent.SendMessage("Assemble");
-        }
+    //        //transform.parent.SendMessage("Assemble");
+    //    }
         
-    }
+    //}
 
     public void TransformToTankBlock(Rigidbody2D tankRigidBody)
     {
@@ -74,7 +79,7 @@ public class TetrisBlock : MonoBehaviour {
     public bool checkIfCanMoveOnDirection(Vector2 direction, float distance, out Collider2D collider)
     {
         // assume size x = y
-        collider = Physics2D.Raycast(transform.position, direction, distance + GetComponent<SpriteRenderer>().size.x / 2.0f, moveLayerMask).collider;
+        collider = Physics2D.Raycast(transform.position, direction, distance + halfBlockSideLength, moveLayerMask).collider;
         return (collider == null); 
     }
 }
