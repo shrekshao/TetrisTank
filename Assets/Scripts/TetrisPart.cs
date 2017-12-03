@@ -10,8 +10,9 @@ public class TetrisPart : MonoBehaviour {
     Transform[] childBlocksTransform;
 
     float fallingSpeed;
-    float movingSpeed = 1.0f;
+    float movingSpeed = 2.0f;
 
+    Rigidbody2D m_rigidBody;
 
     const float slowFallingSpeed = 1.0f;
     const float fastFallingSpeed = 10.0f;
@@ -19,6 +20,8 @@ public class TetrisPart : MonoBehaviour {
     // Use this for initialization
     void Start () {
         fallingSpeed = slowFallingSpeed;
+
+        m_rigidBody = GetComponent<Rigidbody2D>();
 
         //m_fallingLogic = GetComponent<Falling>();
         assembled = false;
@@ -58,14 +61,12 @@ public class TetrisPart : MonoBehaviour {
             fallingSpeed = slowFallingSpeed;
         }
 
+        m_rigidBody.velocity = new Vector2(0.0f, -fallingSpeed);
+
 
         Collider2D collider = null;
         float fallingDistance = fallingSpeed * Time.deltaTime;
-        if (checkDirection(Vector2.down, fallingDistance, ref collider))
-        {
-            transform.position += Vector3.down * fallingDistance;
-        }
-        else
+        if (!checkDirection(Vector2.down, fallingDistance, ref collider))
         {
             // hit tank, assemble
             Assemble(collider.transform.parent.GetComponent<TetrisTank>());
@@ -77,20 +78,20 @@ public class TetrisPart : MonoBehaviour {
         {
             float tmp = movingSpeed * Time.deltaTime;
 
-            if (checkDirection(Vector2.left, tmp, ref collider))
-            {
+            //if (checkDirection(Vector2.left, tmp, ref collider))
+            //{
                 transform.position += Vector3.left * tmp;
-            }
+            //}
             
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             float tmp = movingSpeed * Time.deltaTime;
 
-            if (checkDirection(Vector2.right, tmp, ref collider))
-            {
+            //if (checkDirection(Vector2.right, tmp, ref collider))
+            //{
                 transform.position += Vector3.right * tmp;
-            }
+            //}
         }
 
         if (Input.GetKeyDown(KeyCode.W))

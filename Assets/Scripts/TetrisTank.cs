@@ -6,7 +6,7 @@ public class TetrisTank : MonoBehaviour {
 
     Rigidbody2D m_rigidBody;
 
-    float totalWeight = 0.0f;
+    float totalWeight = 1.0f;
 
 
     public SpriteRenderer refBlockSpriteRenderer;
@@ -37,7 +37,7 @@ public class TetrisTank : MonoBehaviour {
         Vector3 centerOfMass = m_rigidBody.centerOfMass;
         for (int i = 0; i < blocks.Length; i++)
         {
-            float w = 1.0f;
+            float w = 0.1f;
             totalWeight += w;
 
             centerOfMass += w * blocks[i].position;
@@ -48,6 +48,7 @@ public class TetrisTank : MonoBehaviour {
 
         centerOfMass /= totalWeight;
         m_rigidBody.centerOfMass = centerOfMass;
+        m_rigidBody.mass = totalWeight;
     }
 
     public void SnapToGrid(Transform tetrisPart)

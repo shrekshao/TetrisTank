@@ -8,6 +8,8 @@ public class TetrisBlock : MonoBehaviour {
 
     public BlockType blockType = BlockType.Falling;
 
+    public float weight = 0.1f;
+
     TetrisPart parentPart;
 
     GameObject childWeapon = null;
