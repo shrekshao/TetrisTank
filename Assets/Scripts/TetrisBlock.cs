@@ -68,44 +68,65 @@ public class TetrisBlock : MonoBehaviour {
     void Update () {
 
 
-        // debug
-        for (int i = 0; i < parentBlocks.Length; i++)
-        {
-            if (parentBlocks[i] != null)
-            {
-                Debug.DrawRay(transform.position - new Vector3(0.64f, 0.0f, 0.0f), direction2Offset[i], Color.red);
-            }
+        //// debug
+        //for (int i = 0; i < parentBlocks.Length; i++)
+        //{
+        //    if (parentBlocks[i] != null)
+        //    {
+        //        Debug.DrawRay(transform.position - new Vector3(0.64f, 0.0f, 0.0f), direction2Offset[i], Color.red);
+        //    }
 
-            if (childBlocks[i] != null)
-            {
-                Debug.DrawRay(transform.position + new Vector3(0.64f, 0.0f, 0.0f), direction2Offset[i], Color.blue);
-            }
-        }
+        //    if (childBlocks[i] != null)
+        //    {
+        //        Debug.DrawRay(transform.position + new Vector3(0.64f, 0.0f, 0.0f), direction2Offset[i], Color.blue);
+        //    }
+        //}
+
     }
 
-    //void OnCollisionEnter(Collision c)
-    //{
+    void OnCollisionEnter2D(Collision2D c)
+    {
+        if (c.gameObject.CompareTag("Ground"))
+        {
 
-    //}
+            if (blockType == BlockType.Broken)
+            {
+                Destroy(gameObject);
+            }
+            else if (blockType == BlockType.Falling)
+            {
+                Destroy(transform.parent.gameObject);
+            }
+
+            
+        }
+        
+        
+    }
 
     //void OnTriggerEnter2D(Collider2D c)
     //{
     //    if (blockType == BlockType.Falling)
     //    {
-    //        Debug.Log("Falls on Tank");
+    //        //Debug.Log("Falls on Tank");
 
-    //        //TetrisBlock hitTankBlock = c.gameObject.GetComponent<TetrisBlock>();
+    //        ////TetrisBlock hitTankBlock = c.gameObject.GetComponent<TetrisBlock>();
 
-    //        if (parentPart != null)
+    //        //if (parentPart != null)
+    //        //{
+    //        //    parentPart.Assemble(
+    //        //        c.gameObject.transform.parent.GetComponent<TetrisTank>()
+    //        //    );
+    //        //}
+
+    //        ////transform.parent.SendMessage("Assemble");
+
+    //        if (c.gameObject.CompareTag("Ground"))
     //        {
-    //            parentPart.Assemble(
-    //                c.gameObject.transform.parent.GetComponent<TetrisTank>()
-    //            );
+    //            Destroy(transform.parent.gameObject);
     //        }
-            
-    //        //transform.parent.SendMessage("Assemble");
     //    }
-        
+
     //}
 
     public void TransformToTankBlock(Rigidbody2D tankRigidBody)
@@ -171,16 +192,25 @@ public class TetrisBlock : MonoBehaviour {
 
         blockType = BlockType.Broken;
 
+
+        if (childWeapon != null)
+        {
+            childWeapon.SendMessage("Deactivate");
+        }
+
+
         var collider = GetComponent<Collider2D>();
         collider.enabled = true;
         collider.isTrigger = false;
 
-        gameObject.AddComponent<Rigidbody2D>();
+        Rigidbody2D rigidBody = gameObject.AddComponent<Rigidbody2D>();
         gameObject.layer = LayerMask.NameToLayer("Broken");
 
-        transform.parent = null;
+        
 
         tank.DisConnectBlock(this);
+
+        transform.parent = null;
 
         for (int i = 0; i < childBlocks.Length; i++)
         {
@@ -191,6 +221,13 @@ public class TetrisBlock : MonoBehaviour {
             }
         }
 
+
+        rigidBody.velocity = new Vector3(
+            //2.0f * (Random.value - 0.5f), 
+            Mathf.Sign(transform.localPosition.x) * Mathf.Clamp(Mathf.Abs(transform.localPosition.x), 3.0f, 10.0f) * Random.value,
+            5.0f * Random.value , 
+            0.0f); 
+        
         
     }
 

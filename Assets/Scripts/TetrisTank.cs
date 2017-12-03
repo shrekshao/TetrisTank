@@ -6,7 +6,7 @@ public class TetrisTank : MonoBehaviour {
 
     Rigidbody2D m_rigidBody;
 
-    float totalWeight = 1.0f;
+    float totalWeight = 0.0f;
 
 
     public SpriteRenderer refBlockSpriteRenderer;
@@ -16,11 +16,14 @@ public class TetrisTank : MonoBehaviour {
     const int GRID_SIZE_X = 51;
     const int GRID_SIZE_Y = 30;
 
-    const int GRID_ORIGIN_X = (GRID_SIZE_X + 1) / 2;
+    public const int GRID_ORIGIN_X = (GRID_SIZE_X + 1) / 2;
 
     TetrisBlock[,] grid2Block;
 
     Vector3 toppestPosition;    // used for camera zooming
+
+
+    public Transform centerOfMassMarker;
 
 
     int[,] direction2Offset = new int[4, 2]
@@ -54,8 +57,12 @@ public class TetrisTank : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        float z = centerOfMassMarker.position.z;
+        centerOfMassMarker.position = transform.TransformPoint(m_rigidBody.centerOfMass);
+        //centerOfMassMarker.position += transform.position;
+        //centerOfMassMarker.position.Set(centerOfMassMarker.position.x + transform.position.x, centerOfMassMarker.position.y + transform.position.y, z);
 
-		if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0))
         {
             //Debug.Log(1);
 
@@ -77,6 +84,8 @@ public class TetrisTank : MonoBehaviour {
                 grid2Block[x, y].BreakBlock();
             }
         }
+
+
 	}
 
 
@@ -103,11 +112,13 @@ public class TetrisTank : MonoBehaviour {
         {
             float w = blocks[i].weight;
             totalWeight += w;
+            blocks[i].transform.parent = transform;
 
-            centerOfMass += w * blocks[i].transform.position;
+            //centerOfMass += w * blocks[i].transform.position;
+            centerOfMass += w * blocks[i].transform.localPosition;
 
             blocks[i].gameObject.layer = gameObject.layer;
-            blocks[i].transform.parent = transform;
+            
             blocks[i].tank = this;
         }
 
@@ -229,5 +240,14 @@ public class TetrisTank : MonoBehaviour {
     public void DisConnectBlock(TetrisBlock b)
     {
         grid2Block[b.gridCoordX, b.gridCoordY] = null;
+
+        // update center of mass
+        Vector3 centerOfMass = m_rigidBody.centerOfMass;
+        centerOfMass = (centerOfMass * totalWeight - b.weight * b.transform.localPosition);
+        totalWeight -= b.weight;
+        centerOfMass /= totalWeight;
+
+        m_rigidBody.centerOfMass = centerOfMass;
+        m_rigidBody.mass = totalWeight;
     }
 }
