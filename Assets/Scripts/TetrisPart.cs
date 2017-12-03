@@ -7,7 +7,6 @@ public class TetrisPart : MonoBehaviour {
     //Falling m_fallingLogic;
 
     TetrisBlock[] childBlocks;
-    Transform[] childBlocksTransform;
 
     float fallingSpeed;
     float movingSpeed = 2.0f;
@@ -28,21 +27,20 @@ public class TetrisPart : MonoBehaviour {
 
         int numChildren = transform.childCount;
         childBlocks = new TetrisBlock[numChildren];
-        childBlocksTransform = new Transform[numChildren];
         for (int i = 0; i < numChildren; i++)
         {
-            childBlocksTransform[i] = transform.GetChild(i);
-            childBlocks[i] = childBlocksTransform[i].GetComponent<TetrisBlock>();
+            childBlocks[i] = transform.GetChild(i).GetComponent<TetrisBlock>();
         }
     }
 
-
+    int assembleHitBlockId = -1;
     bool checkDirection(Vector2 direction, float distance, ref Collider2D collider)
     {
         for (int i = 0; i < childBlocks.Length; i++)
         {
             if (!childBlocks[i].checkIfCanMoveOnDirection(direction, distance, out collider))
             {
+                assembleHitBlockId = i; // dirty
                 return false;
             }
         }
@@ -77,21 +75,16 @@ public class TetrisPart : MonoBehaviour {
         if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
         {
             float tmp = movingSpeed * Time.deltaTime;
-
-            //if (checkDirection(Vector2.left, tmp, ref collider))
-            //{
-                transform.position += Vector3.left * tmp;
-            //}
+            
+            transform.position += Vector3.left * tmp;
+            
             
         }
         else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
         {
             float tmp = movingSpeed * Time.deltaTime;
 
-            //if (checkDirection(Vector2.right, tmp, ref collider))
-            //{
-                transform.position += Vector3.right * tmp;
-            //}
+            transform.position += Vector3.right * tmp;
         }
 
         if (Input.GetKeyDown(KeyCode.W))
@@ -121,13 +114,16 @@ public class TetrisPart : MonoBehaviour {
             /////////////////
             var tankRigidBody = tank.gameObject.GetComponent<Rigidbody2D>();
 
+            
+            tank.UpdateCenterOfMass(childBlocks);
+            tank.BuildConnection(childBlocks, assembleHitBlockId);
+
+
             for (int i = 0; i < childBlocks.Length; i++)
             {
                 // activate weapon coroutine
                 childBlocks[i].TransformToTankBlock(tankRigidBody);
             }
-
-            tank.UpdateCenterOfMass(childBlocksTransform);
 
             Destroy(gameObject);
         }
