@@ -72,7 +72,7 @@ public class TetrisPart : MonoBehaviour {
         }
 
         collider = null;
-        if (Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.A))
+        if (Input.GetKey(KeyCode.A))
         {
             float tmp = movingSpeed * Time.deltaTime;
             
@@ -80,7 +80,7 @@ public class TetrisPart : MonoBehaviour {
             
             
         }
-        else if (Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.D))
+        else if (Input.GetKey(KeyCode.D))
         {
             float tmp = movingSpeed * Time.deltaTime;
 

@@ -5,9 +5,9 @@ using UnityEngine;
 public class TetrisPartGenerator : MonoBehaviour {
 
     public TetrisPart[] tetrisPartLib;
-    public Transform tetrisTank;
+    public TetrisTank tetrisTank;
 
-    Vector3 spawnLocationOffset = new Vector3(0.0f, 25.0f, 0.0f);
+    Vector3 spawnLocationOffset = new Vector3(0.0f, 20.0f, 0.0f);
 
     public float respawnTime = 5.0f;
 
@@ -20,7 +20,7 @@ public class TetrisPartGenerator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Input.GetKeyDown(KeyCode.Slash))
+		if (Input.GetKeyDown(KeyCode.Space))
         {
             if (ready)
             {
@@ -38,9 +38,9 @@ public class TetrisPartGenerator : MonoBehaviour {
     {
         var part = tetrisPartLib[Random.Range(0, tetrisPartLib.Length)];
 
-        GameObject.Instantiate(part, tetrisTank.position + spawnLocationOffset, Quaternion.identity);
+        //GameObject.Instantiate(part, tetrisTank.toppestPosition + spawnLocationOffset, Quaternion.identity);
+        GameObject.Instantiate(part, new Vector3(tetrisTank.transform.position.x, Camera.main.transform.position.y + Camera.main.orthographicSize, 0.0f), Quaternion.identity);
 
-        
     }
 
     IEnumerator RespawnTime()

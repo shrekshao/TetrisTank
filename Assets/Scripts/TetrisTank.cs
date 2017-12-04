@@ -21,7 +21,7 @@ public class TetrisTank : MonoBehaviour {
 
     TetrisBlock[,] grid2Block;
 
-    Vector3 toppestPosition;    // used for camera zooming
+    public Vector3 toppestPosition;    // used for camera zooming
 
 
     public Transform centerOfMassMarker;
@@ -60,6 +60,7 @@ public class TetrisTank : MonoBehaviour {
 
         float z = centerOfMassMarker.position.z;
         centerOfMassMarker.position = transform.TransformPoint(m_rigidBody.centerOfMass);
+        centerOfMassMarker.position = new Vector3(centerOfMassMarker.position.x, centerOfMassMarker.position.y, -15.0f);
         //centerOfMassMarker.position += transform.position;
         //centerOfMassMarker.position.Set(centerOfMassMarker.position.x + transform.position.x, centerOfMassMarker.position.y + transform.position.y, z);
 
@@ -74,29 +75,29 @@ public class TetrisTank : MonoBehaviour {
 
 
 
-        // mouse debug break block
-        if (Input.GetMouseButtonDown(0))
-        {
-            //Debug.Log(1);
+        //// mouse debug break block
+        //if (Input.GetMouseButtonDown(0))
+        //{
+        //    //Debug.Log(1);
 
-            // for debugging
+        //    // for debugging
 
-            var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-            //Debug.Log(pos);
+        //    var pos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        //    //Debug.Log(pos);
 
-            Vector2 coord = getGridCoord(pos - transform.position);
+        //    Vector2 coord = getGridCoord(pos - transform.position);
 
 
-            int x = Mathf.FloorToInt(coord.x + 0.1f) + GRID_ORIGIN_X;   // already on grid, + 0.1f for safety concern
-            int y = Mathf.FloorToInt(coord.y + 0.1f);   // already on grid, + 0.1f for safety concern
+        //    int x = Mathf.FloorToInt(coord.x + 0.1f) + GRID_ORIGIN_X;   // already on grid, + 0.1f for safety concern
+        //    int y = Mathf.FloorToInt(coord.y + 0.1f);   // already on grid, + 0.1f for safety concern
 
-            Debug.Log("grid x, y: " + x + ", " + y);
+        //    //Debug.Log("grid x, y: " + x + ", " + y);
 
-            if (grid2Block[x, y] != null)
-            {
-                grid2Block[x, y].BreakBlock();
-            }
-        }
+        //    if (grid2Block[x, y] != null)
+        //    {
+        //        grid2Block[x, y].BreakBlock();
+        //    }
+        //}
 
 
 	}
