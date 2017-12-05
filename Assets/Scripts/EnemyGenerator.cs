@@ -11,6 +11,7 @@ public class EnemyGenerator : MonoBehaviour {
     public Transform enemyRoot;
 
     public float waitSeconds = 10.0f;
+    public float minWaitSeconds = 3.0f;
 
     // Use this for initialization
     void Start () {
@@ -28,7 +29,7 @@ public class EnemyGenerator : MonoBehaviour {
         while (true)
         {
             yield return new WaitForSeconds(waitSeconds);
-            waitSeconds = Mathf.Max(5.0f, waitSeconds - 0.1f);
+            waitSeconds = Mathf.Max(minWaitSeconds, waitSeconds - 0.1f);
             var e = enemyLib[Random.Range(0, enemyLib.Length)];
             var g = Instantiate(e, 
                 Vector3.Lerp(spawnLowest.position, spawnHighest.position, Random.value), 
